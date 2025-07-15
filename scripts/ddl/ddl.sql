@@ -85,6 +85,7 @@ CREATE TABLE products (
     price DOUBLE(10,2),
     category_id INT(11),
     image VARCHAR(80),
+    average_rating DOUBLE(10,2) DEFAULT NULL,
     FOREIGN KEY (category_id) REFERENCES categories(id)
 );
 
@@ -212,5 +213,14 @@ CREATE TABLE customer_memberships (
     FOREIGN KEY (membership_id) REFERENCES memberships(id)
 );
 
-
+CREATE TABLE resumen_calificaciones (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    empresa_id VARCHAR(20),
+    mes INT,
+    año INT,
+    promedio_calificacion DOUBLE(10,2),
+    total_calificaciones INT,
+    fecha_generacion DATETIME,
+    FOREIGN KEY (empresa_id) REFERENCES companies(id)
+);
 
