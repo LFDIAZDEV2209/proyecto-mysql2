@@ -48,7 +48,8 @@ CREATE TABLE categories (
 
 CREATE TABLE audiences (
     id INT(11) PRIMARY KEY AUTO_INCREMENT,
-    description VARCHAR(60) 
+    description VARCHAR(60),
+    isactive BOOLEAN
 );
 
 CREATE TABLE companies (
@@ -60,6 +61,7 @@ CREATE TABLE companies (
     audience_id INT(11),
     cellphone VARCHAR(15),
     email VARCHAR(80),
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (type_id) REFERENCES typesofidentifications(id),
     FOREIGN KEY (category_id) REFERENCES categories(id),
     FOREIGN KEY (city_id) REFERENCES citiesormunicipalities(code),
@@ -86,6 +88,7 @@ CREATE TABLE products (
     category_id INT(11),
     image VARCHAR(80),
     average_rating DOUBLE(10,2) DEFAULT NULL,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (category_id) REFERENCES categories(id)
 );
 
@@ -224,3 +227,38 @@ CREATE TABLE resumen_calificaciones (
     FOREIGN KEY (empresa_id) REFERENCES companies(id)
 );
 
+CREATE TABLE errores_log (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    error_message TEXT,
+    error_date DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE poll_questions (
+    id INT(11) PRIMARY KEY AUTO_INCREMENT,
+    poll_id INT(11),
+    question_text TEXT,
+    FOREIGN KEY (poll_id) REFERENCES polls(id)
+);
+
+CREATE TABLE historial_precios (
+    id INT(11) PRIMARY KEY AUTO_INCREMENT,
+    product_id INT(11),
+    old_price DOUBLE(10,2),
+    new_price DOUBLE(10,2),
+    change_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (product_id) REFERENCES products(id)
+);
+
+CREATE TABLE log_acciones (
+    id INT(11) PRIMARY KEY AUTO_INCREMENT,
+    message TEXT,
+    date DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE notifications (
+    id INT(11) PRIMARY KEY AUTO_INCREMENT,
+    customer_id INT(11),
+    message TEXT,
+    date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (customer_id) REFERENCES customers(id)
+);
