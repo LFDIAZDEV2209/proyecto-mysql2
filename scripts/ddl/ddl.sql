@@ -262,3 +262,28 @@ CREATE TABLE notifications (
     date DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (customer_id) REFERENCES customers(id)
 );
+
+CREATE TABLE IF NOT EXISTS product_metrics (
+    product_id INT(11) PRIMARY KEY,
+    average_rating DOUBLE(10,2) DEFAULT NULL,
+    total_ratings INT DEFAULT 0,
+    last_updated DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (product_id) REFERENCES products(id)
+);
+
+CREATE TABLE IF NOT EXISTS favoritos_resumen (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    customer_id INT(11),
+    total_favoritos INT,
+    fecha_calculo DATE,
+    FOREIGN KEY (customer_id) REFERENCES customers(id)
+);
+
+CREATE TABLE IF NOT EXISTS inconsistencias_fk (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    tabla_origen VARCHAR(50),
+    campo_origen VARCHAR(50),
+    valor_origen VARCHAR(50),
+    tabla_referencia VARCHAR(50),
+    fecha_deteccion DATETIME DEFAULT CURRENT_TIMESTAMP
+);
